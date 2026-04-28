@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'StaySphere | Room Rental System')</title>
+    <style>
+        :root {
+            --bg: #f5efe6;
+            --bg-accent: #eadcc8;
+            --surface: rgba(255, 249, 242, 0.85);
+            --surface-strong: #fffaf4;
+            --surface-dark: #183a37;
+            --primary: #235347;
+            --primary-soft: #dbece6;
+            --secondary: #bf6d4d;
+            --secondary-soft: #f6e3d7;
+            --text: #1f2a2a;
+            --muted: #5f6c69;
+            --line: rgba(31, 42, 42, 0.1);
+            --success: #2f7a56;
+            --shadow: 0 20px 60px rgba(35, 83, 71, 0.12);
+            --radius-xl: 28px;
+            --radius-lg: 22px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
+            --content-width: 1180px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(191, 109, 77, 0.18), transparent 30%),
+                radial-gradient(circle at top right, rgba(35, 83, 71, 0.18), transparent 35%),
+                linear-gradient(180deg, #f9f5ef 0%, #f2e8dd 100%);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        .page-frame {
+            width: min(var(--content-width), calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            padding: 18px 0;
+            backdrop-filter: blur(18px);
+            background: rgba(249, 245, 239, 0.7);
+            border-bottom: 1px solid rgba(31, 42, 42, 0.06);
+        }
+
+        .site-header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--surface-dark);
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            border-radius: 15px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            box-shadow: 0 10px 24px rgba(35, 83, 71, 0.22);
+        }
+
+        .site-nav {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .nav-link,
+        .button-link,
+        .button-secondary {
+            border-radius: 999px;
+            transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .nav-link {
+            padding: 11px 16px;
+            color: var(--muted);
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--surface-dark);
+            border-color: rgba(35, 83, 71, 0.12);
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .button-link,
+        .button-secondary,
+        .button-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .button-link {
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary), #2a6a5a);
+            box-shadow: 0 14px 30px rgba(35, 83, 71, 0.22);
+        }
+
+        .button-secondary {
+            color: var(--surface-dark);
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(35, 83, 71, 0.16);
+        }
+
+        .button-submit {
+            width: 100%;
+            border-radius: 18px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--secondary), #cf815e);
+            box-shadow: 0 14px 28px rgba(191, 109, 77, 0.22);
+        }
+
+        .button-link:hover,
+        .button-secondary:hover,
+        .button-submit:hover,
+        .nav-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .page-content {
+            padding: 38px 0 72px;
+        }
+
+        .panel,
+        .room-card,
+        .info-card,
+        .auth-card,
+        .metric-card,
+        .list-card,
+        .table-card {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+        }
+
+        .flash-banner {
+            margin-bottom: 22px;
+            padding: 16px 18px;
+            border-radius: 18px;
+            background: rgba(47, 122, 86, 0.12);
+            color: var(--success);
+            border: 1px solid rgba(47, 122, 86, 0.18);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.72);
+            color: var(--secondary);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 18px;
+            margin-bottom: 22px;
+        }
+
+        .section-heading h2,
+        .hero-copy h1,
+        .auth-copy h1,
+        .dashboard-heading h1 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            line-height: 1.05;
+            color: var(--surface-dark);
+        }
+
+        .section-heading p,
+        .hero-copy p,
+        .auth-copy p,
+        .dashboard-heading p,
+        .muted {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .hero {
+            grid-template-columns: 1.3fr 0.9fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .hero-copy,
+        .hero-aside,
+        .auth-copy,
+        .auth-form-wrap,
+        .dashboard-hero {
+            padding: 30px;
+        }
+
+        .hero-copy {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-copy::after {
+            content: "";
+            position: absolute;
+            inset: auto -90px -90px auto;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(191, 109, 77, 0.18) 0%, transparent 68%);
+        }
+
+        .hero-copy h1 {
+            margin-top: 18px;
+            font-size: clamp(2.6rem, 5vw, 4.7rem);
+            max-width: 9ch;
+        }
+
+        .hero-copy p {
+            margin-top: 18px;
+            max-width: 58ch;
+            font-size: 1.05rem;
+        }
+
+        .hero-actions,
+        .stat-row,
+        .feature-pills,
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .hero-actions {
+            margin-top: 28px;
+        }
+
+        .stat-row {
+            margin-top: 26px;
+        }
+
+        .stat-pill {
+            min-width: 140px;
+            padding: 16px 18px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.64);
+            border: 1px solid rgba(35, 83, 71, 0.08);
+        }
+
+        .stat-pill strong,
+        .metric-value,
+        .price-tag strong {
+            display: block;
+            font-size: 1.45rem;
+            color: var(--surface-dark);
+        }
+
+        .stat-pill span,
+        .metric-label,
+        .meta-line,
+        .table-subtle {
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .hero-aside h3,
+        .auth-form-wrap h2,
+        .list-card h3,
+        .table-card h3 {
+            margin: 0 0 10px;
+            color: var(--surface-dark);
+        }
+
+        .hero-aside p,
+        .auth-form-wrap p {
+            margin: 0 0 22px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .field {
+            display: grid;
+            gap: 8px;
+        }
+
+        .field label {
+            font-weight: 700;
+            color: var(--surface-dark);
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(35, 83, 71, 0.16);
+            background: rgba(255, 255, 255, 0.82);
+            color: var(--text);
+            outline: none;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: rgba(191, 109, 77, 0.7);
+            box-shadow: 0 0 0 4px rgba(191, 109, 77, 0.12);
+        }
+
+        .form-note,
+        .inline-note {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .room-grid,
+        .info-grid,
+        .metrics-grid,
+        .dashboard-grid,
+        .auth-grid,
+        .steps-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .room-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-bottom: 32px;
+        }
+
+        .room-card {
+            overflow: hidden;
+        }
+
+        .room-image {
+            min-height: 210px;
+            padding: 20px;
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            color: #fff;
+        }
+
+        .room-image--garden-photo {
+            background:
+                linear-gradient(180deg, rgba(24, 58, 55, 0.18), rgba(24, 58, 55, 0.55)),
+                url('https://i.pinimg.com/1200x/fa/2f/ff/fa2fffc8ab6ec7f91064a660ebe5d04c.jpg') center/cover no-repeat;
+        }
+
+        .room-image--loft-photo {
+            background:
+                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.5)),
+                url('https://i.pinimg.com/736x/f1/77/c5/f177c5954b2cf9fbb981d8f744d85fc1.jpg') center/cover no-repeat;
+        }
+
+        .room-image--executive-photo {
+            background:
+                linear-gradient(180deg, rgba(24, 58, 55, 0.2), rgba(24, 58, 55, 0.56)),
+                url('https://i.pinimg.com/1200x/d4/84/5e/d4845eedfc3cc7b847fb59060052ee2c.jpg') center/cover no-repeat;
+        }
+
+        .room-image--river {
+            background:
+                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+        }
+
+        .room-image--maple {
+            background:
+                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                url('https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+        }
+
+        .room-image--skyline {
+            background:
+                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                url('https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+        }
+
+        .room-image--oakwood {
+            background:
+                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+        }
+
+        .room-image--harbor {
+            background:
+                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                url('https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+        }
+
+        .room-image--campus {
+            background:
+                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+        }
+
+        .room-image small,
+        .status-chip,
+        .soft-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 0.76rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .room-image small {
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px);
+        }
+
+        .room-body {
+            padding: 22px;
+        }
+
+        .room-title-row,
+        .metric-header,
+        .table-row,
+        .list-row {
+            display: flex;
+            align-items: start;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .room-body h3,
+        .info-card h3 {
+            margin: 0;
+            color: var(--surface-dark);
+        }
+
+        .room-meta,
+        .property-table,
+        .mini-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .room-meta {
+            margin: 16px 0 18px;
+        }
+
+        .meta-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .meta-line strong {
+            color: var(--surface-dark);
+        }
+
+        .price-tag {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .price-value {
+            text-align: right;
+        }
+
+        .price-tag span {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .info-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-bottom: 32px;
+        }
+
+        .info-card {
+            padding: 24px;
+        }
+
+        .feature-pills {
+            margin-top: 18px;
+        }
+
+        .soft-chip {
+            background: var(--secondary-soft);
+            color: var(--secondary);
+        }
+
+        .steps-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .step-card {
+            padding: 22px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.46);
+        }
+
+        .step-number {
+            width: 42px;
+            height: 42px;
+            margin-bottom: 18px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            background: var(--surface-dark);
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .page-auth .page-frame,
+        .page-dashboard .page-frame {
+            width: min(var(--content-width), calc(100% - 28px));
+        }
+
+        .auth-grid {
+            grid-template-columns: 1fr 1fr;
+            align-items: stretch;
+        }
+
+        .auth-copy {
+            background: linear-gradient(160deg, rgba(24, 58, 55, 0.95), rgba(38, 87, 79, 0.9));
+            color: #f7eee3;
+        }
+
+        .auth-copy h1,
+        .auth-copy p,
+        .auth-copy .inline-note,
+        .auth-copy li {
+            color: inherit;
+        }
+
+        .auth-copy .eyebrow {
+            background: rgba(255, 255, 255, 0.08);
+            color: #f7d7c9;
+        }
+
+        .auth-points {
+            display: grid;
+            gap: 14px;
+            margin: 28px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .auth-points li {
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .auth-form-wrap {
+            background: rgba(255, 250, 244, 0.88);
+        }
+
+        .form-row-two {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .dashboard-hero {
+            margin-bottom: 22px;
+        }
+
+        .dashboard-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .metrics-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            margin-bottom: 22px;
+        }
+
+        .metric-card,
+        .list-card,
+        .table-card {
+            padding: 24px;
+        }
+
+        .metric-card {
+            display: grid;
+            gap: 18px;
+        }
+
+        .status-chip {
+            background: var(--primary-soft);
+            color: var(--primary);
+        }
+
+        .dashboard-grid {
+            grid-template-columns: 1.35fr 0.85fr;
+            align-items: start;
+        }
+
+        .property-table {
+            margin-top: 18px;
+        }
+
+        .table-row,
+        .list-row {
+            padding: 14px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .table-row:first-child,
+        .list-row:first-child {
+            border-top: none;
+            padding-top: 6px;
+        }
+
+        .table-row strong,
+        .list-row strong {
+            color: var(--surface-dark);
+        }
+
+        .table-stack {
+            display: grid;
+            gap: 4px;
+        }
+
+        .quick-actions {
+            margin-top: 18px;
+        }
+
+        .site-footer {
+            padding: 0 0 34px;
+        }
+
+        .site-footer-card {
+            padding: 22px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .site-footer-card p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        @media (max-width: 1080px) {
+            .hero,
+            .auth-grid,
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .room-grid,
+            .info-grid,
+            .steps-grid,
+            .metrics-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 720px) {
+            .site-header {
+                position: static;
+            }
+
+            .site-header-inner,
+            .section-heading,
+            .dashboard-heading,
+            .site-footer-card,
+            .room-title-row,
+            .table-row,
+            .list-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .price-tag {
+                align-items: stretch;
+            }
+
+            .price-value {
+                text-align: right;
+                align-self: flex-end;
+            }
+
+            .page-content {
+                padding-top: 24px;
+            }
+
+            .hero-copy,
+            .hero-aside,
+            .auth-copy,
+            .auth-form-wrap,
+            .dashboard-hero,
+            .metric-card,
+            .list-card,
+            .table-card {
+                padding: 22px;
+            }
+
+            .room-grid,
+            .info-grid,
+            .steps-grid,
+            .metrics-grid,
+            .form-row-two {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-copy h1,
+            .auth-copy h1,
+            .dashboard-heading h1 {
+                font-size: 2.3rem;
+            }
+
+            .page-frame {
+                width: min(var(--content-width), calc(100% - 20px));
+            }
+
+            .site-nav {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+    @stack('head')
+</head>
+<body class="@yield('page_class', 'page-shell')">
+    @if (! trim($__env->yieldContent('hide_shell')))
+        <header class="site-header">
+            <div class="page-frame site-header-inner">
+                <a href="{{ route('home') }}" class="brand">
+                    <span class="brand-mark">SS</span>
+                    <span>StaySafeHere</span>
+                </a>
+
+                <nav class="site-nav">
+                    <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Browse Rooms</a>
+                    @auth
+                        @if (auth()->user()->is_admin || auth()->user()->role === 'admin')
+                            <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard', 'admin.*') ? 'active' : '' }}">Dashboard</a>
+                        @endif
+
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="nav-link">Logout</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="nav-link {{ request()->routeIs('login') ? 'active' : '' }}">Login</a>
+                        <a href="{{ route('register') }}" class="nav-link {{ request()->routeIs('register') ? 'active' : '' }}">Register</a>
+                    @endauth
+                </nav>
+            </div>
+        </header>
+    @endif
+
+    <main class="page-content">
+        @if (trim($__env->yieldContent('hide_shell')))
+            @if (session('status'))
+                <div class="page-frame">
+                    <div class="flash-banner">
+                        {{ session('status') }}
+                    </div>
+                </div>
+            @endif
+
+            @yield('content')
+        @else
+            <div class="page-frame">
+                @if (session('status'))
+                    <div class="flash-banner">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="flash-banner" style="background: rgba(191, 109, 77, 0.12); color: #a34f2d; border-color: rgba(191, 109, 77, 0.18);">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
+
+                @yield('content')
+            </div>
+        @endif
+    </main>
+
+    @if (! trim($__env->yieldContent('hide_shell')))
+        <footer class="site-footer">
+            <div class="page-frame">
+                <div class="site-footer-card panel">
+                    <p>StaySphere helps students, travelers, and teams find flexible rooms with fast booking and simple management.</p>
+                    <p>Blade UI starter for your Laravel room rental system.</p>
+                </div>
+            </div>
+        </footer>
+    @endif
+</body>
+</html>

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'StaySphere | Room Rental Home')
+@section('title', 'Stay Safe Here | Room Rental Home')
 @section('page_class', 'page-home')
 
 @section('content')
@@ -10,7 +10,6 @@
             <h1>Find a room that felt like home.</h1>
 
             <div class="hero-actions">
-                <a href="{{ route('register') }}" class="button-link">Explore Rooms</a>
                 @guest
                     <a href="{{ route('register') }}" class="button-secondary">Create Account</a>
                 @endguest
@@ -18,11 +17,13 @@
         </div>
     </section>
 
-    <section id="featured-rooms">
+    <section id="featured-rooms ">
         <div class="section-heading">
             <div>
-                <span class="eyebrow">Featured Listings</span>
-                <h2>Rooms designed for different renter needs.</h2>
+                <span class="eyebrow ">
+                    Room Catalog
+                </span>
+                <h2> Rooms designed for different renter needs.</h2>
             </div>
             <p>Live inventory from the room catalog.</p>
         </div>
@@ -30,7 +31,12 @@
         <div class="room-grid">
             @forelse ($rooms as $room)
                 <article class="room-card">
-                    <div class="room-image room-image--{{ $room->theme }}">
+                    <div
+                        class="room-image room-image--{{ $room->theme }}"
+                        @if ($room->image_url)
+                            style="background-image: linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)), url('{{ $room->image_url }}'); background-position: center; background-size: cover;"
+                        @endif
+                    >
                         <small>{{ $room->availability_label }}</small>
                         <small>{{ $room->size_label }}</small>
                     </div>

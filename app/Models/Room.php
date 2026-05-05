@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Collection;
 
 class Room extends Model
@@ -22,6 +23,7 @@ class Room extends Model
         'capacity_label',
         'size_label',
         'theme',
+        'image_path',
         'description',
         'deposit',
         'bathroom',
@@ -67,7 +69,30 @@ class Room extends Model
 
     public function getPeriodDisplayAttribute(): string
     {
+        $value = $this->price_period_value;
+
+        if ($value !== null) {
+            return '/' . $value . ' month';
+        }
+
         return '/' . $this->price_period;
+    }
+
+    public function getPricePeriodValueAttribute(): ?int
+    {
+        if ($this->price_period === null) {
+            return null;
+        }
+
+        if (is_numeric($this->price_period)) {
+            return (int) $this->price_period;
+        }
+
+        if (preg_match('/\d+/', (string) $this->price_period, $matches)) {
+            return (int) $matches[0];
+        }
+
+        return null;
     }
 
     public function getAmenitiesListAttribute(): Collection
@@ -78,5 +103,14 @@ class Room extends Model
     public function getPoliciesListAttribute(): Collection
     {
         return $this->policies->pluck('name');
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if (! $this->image_path) {
+            return null;
+        }
+
+        return Storage::url($this->image_path);
     }
 }

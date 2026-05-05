@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'StaySphere | Room Rental System')</title>
+    <title>@yield('title', 'Stay Safe Here | Room Rental System')</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <style>
         :root {
             --bg: #f5efe6;
@@ -98,12 +99,32 @@
         .brand-mark {
             width: 44px;
             height: 44px;
-            border-radius: 15px;
-            display: grid;
-            place-items: center;
-            color: #fff;
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            box-shadow: 0 10px 24px rgba(35, 83, 71, 0.22);
+        }
+
+        .site-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            flex: 0 0 auto;
+            max-width: 100%;
+        }
+
+        .site-logo-mark {
+            display: inline-flex;
+            flex: 0 0 auto;
+            filter: drop-shadow(0 10px 24px rgba(35, 83, 71, 0.18));
+        }
+
+        .site-logo-mark svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .site-logo-wordmark {
+            display: inline-block;
+            font-size: 0.92rem;
+            line-height: 1.05;
+            white-space: nowrap;
         }
 
         .site-nav {
@@ -193,12 +214,63 @@
         }
 
         .flash-banner {
-            margin-bottom: 22px;
-            padding: 16px 18px;
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1200;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            width: fit-content;
+            max-width: min(520px, calc(100vw - 48px));
+            margin: 0;
+            padding: 14px 18px;
             border-radius: 18px;
+            background: rgba(255, 250, 244, 0.96);
+            color: var(--surface-dark);
+            border: 1px solid rgba(47, 122, 86, 0.14);
+            box-shadow: 0 18px 36px rgba(35, 83, 71, 0.14);
+            backdrop-filter: blur(14px);
+            line-height: 1.45;
+            transition: opacity 0.28s ease, transform 0.28s ease, max-height 0.28s ease, padding 0.28s ease, border-width 0.28s ease;
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 120px;
+            overflow: hidden;
+        }
+
+        .flash-banner::before {
+            content: "OK";
+            flex: 0 0 auto;
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
             background: rgba(47, 122, 86, 0.12);
             color: var(--success);
-            border: 1px solid rgba(47, 122, 86, 0.18);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+
+        .flash-banner.is-hiding {
+            opacity: 0;
+            transform: translateY(-10px);
+            max-height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            border-width: 0;
+        }
+
+        @media (max-width: 640px) {
+            .flash-banner {
+                top: 16px;
+                right: 16px;
+                left: 16px;
+                max-width: none;
+                width: auto;
+            }
         }
 
         .eyebrow {
@@ -800,8 +872,7 @@
         <header class="site-header">
             <div class="page-frame site-header-inner">
                 <a href="{{ route('home') }}" class="brand">
-                    <span class="brand-mark">SS</span>
-                    <span>StaySafeHere</span>
+                    <x-site-logo mark-class="brand-mark" />
                 </a>
 
                 <nav class="site-nav">
@@ -828,7 +899,7 @@
         @if (trim($__env->yieldContent('hide_shell')))
             @if (session('status'))
                 <div class="page-frame">
-                    <div class="flash-banner">
+                    <div class="flash-banner" data-auto-dismiss="3000">
                         {{ session('status') }}
                     </div>
                 </div>
@@ -838,7 +909,7 @@
         @else
             <div class="page-frame">
                 @if (session('status'))
-                    <div class="flash-banner">
+                    <div class="flash-banner" data-auto-dismiss="3000">
                         {{ session('status') }}
                     </div>
                 @endif
@@ -858,11 +929,21 @@
         <footer class="site-footer">
             <div class="page-frame">
                 <div class="site-footer-card panel">
-                    <p>StaySphere helps students, travelers, and teams find flexible rooms with fast booking and simple management.</p>
-                    <p>Blade UI starter for your Laravel room rental system.</p>
+                    <p>Stay Safe Here helps students, travelers, and teams find flexible rooms with fast booking and simple management.</p>
                 </div>
             </div>
         </footer>
     @endif
+
+    <script>
+        document.querySelectorAll('[data-auto-dismiss]').forEach((banner) => {
+            const delay = Number(banner.dataset.autoDismiss || 3000);
+
+            window.setTimeout(() => {
+                banner.classList.add('is-hiding');
+                window.setTimeout(() => banner.remove(), 280);
+            }, delay);
+        });
+    </script>
 </body>
 </html>

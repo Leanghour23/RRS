@@ -132,7 +132,12 @@
 @section('content')
     <div class="room-detail-layout">
         <article class="panel room-detail-hero">
-            <div class="room-detail-cover room-image room-image--{{ $room->theme }}">
+            <div
+                class="room-detail-cover room-image room-image--{{ $room->theme }}"
+                @if ($room->image_url)
+                    style="background-image: linear-gradient(180deg, rgba(24, 58, 55, 0.18), rgba(24, 58, 55, 0.55)), url('{{ $room->image_url }}'); background-position: center; background-size: cover;"
+                @endif
+            >
                 <div>
                     <span class="eyebrow">{{ $room->availability_label }}</span>
                     <h1>{{ $room->name }}</h1>

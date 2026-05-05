@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\BookingRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -20,5 +22,48 @@ class BookingController extends Controller
             ],
             'bookings' => $query->get(),
         ]);
+    }
+
+    public function accept(BookingRequest $booking): RedirectResponse
+    {
+        if ($booking->status !== 'confirmed') {
+            $booking->update([
+                'status' => 'confirmed',
+            ]);
+        }
+
+        return back()->with('status', 'Booking request ' . $booking->code . ' has been accepted.');
+    }
+
+    public function reject(BookingRequest $booking): RedirectResponse
+    {
+        $message = 'Booking request ' . $booking->code . ' was deleted.';
+
+        DB::transaction(function () use ($booking, &$message) {
+            $booking->loadMissing('user');
+
+            if (! $booking->user) {
+                $booking->delete();
+
+                return;
+            }
+
+            if ($booking->user->is_admin || $booking->user->role === 'admin') {
+                $booking->delete();
+                $message = 'Booking request ' . $booking->code . ' was deleted. Admin accounts are not deleted.';
+
+                return;
+            }
+
+            $deletedName = $booking->user->name;
+
+            $booking->user->delete();
+
+            $booking->delete();
+
+            $message = 'Booking request ' . $booking->code . ' and user ' . $deletedName . ' were deleted.';
+        });
+
+        return back()->with('status', $message);
     }
 }

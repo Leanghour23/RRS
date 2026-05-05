@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'StaySphere | Login')
+@section('title', 'Stay Safe Here | Login')
 @section('page_class', 'page-auth')
 
 @section('content')

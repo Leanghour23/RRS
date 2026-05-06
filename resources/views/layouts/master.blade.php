@@ -7,20 +7,26 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <style>
         :root {
-            --bg: #f5efe6;
-            --bg-accent: #eadcc8;
-            --surface: rgba(255, 249, 242, 0.85);
-            --surface-strong: #fffaf4;
-            --surface-dark: #183a37;
-            --primary: #235347;
-            --primary-soft: #dbece6;
-            --secondary: #bf6d4d;
-            --secondary-soft: #f6e3d7;
-            --text: #1f2a2a;
-            --muted: #5f6c69;
-            --line: rgba(31, 42, 42, 0.1);
-            --success: #2f7a56;
-            --shadow: 0 20px 60px rgba(35, 83, 71, 0.12);
+            --bg: #fafafa;
+            --bg-accent: #f3f4f6;
+            --surface: rgba(255, 255, 255, 0.96);
+            --surface-strong: #ffffff;
+            --surface-dark: #111827;
+            --primary: #111827;
+            --primary-deep: #030712;
+            --primary-soft: #f3f4f6;
+            --secondary: #2563eb;
+            --secondary-deep: #1d4ed8;
+            --secondary-soft: #dbeafe;
+            --text: #111827;
+            --muted: #6b7280;
+            --muted-soft: #9ca3af;
+            --line: #e5e7eb;
+            --success: #374151;
+            --danger: #ef4444;
+            --danger-deep: #dc2626;
+            --danger-soft: #fee2e2;
+            --shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
             --radius-xl: 28px;
             --radius-lg: 22px;
             --radius-md: 16px;
@@ -42,9 +48,9 @@
             font-family: "Segoe UI", "Trebuchet MS", sans-serif;
             color: var(--text);
             background:
-                radial-gradient(circle at top left, rgba(191, 109, 77, 0.18), transparent 30%),
-                radial-gradient(circle at top right, rgba(35, 83, 71, 0.18), transparent 35%),
-                linear-gradient(180deg, #f9f5ef 0%, #f2e8dd 100%);
+                radial-gradient(circle at top left, rgba(37, 99, 235, 0.05), transparent 30%),
+                radial-gradient(circle at top right, rgba(55, 65, 81, 0.06), transparent 35%),
+                linear-gradient(180deg, var(--bg) 0%, #f3f4f6 100%);
         }
 
         a {
@@ -75,8 +81,8 @@
             z-index: 20;
             padding: 18px 0;
             backdrop-filter: blur(18px);
-            background: rgba(249, 245, 239, 0.7);
-            border-bottom: 1px solid rgba(31, 42, 42, 0.06);
+            background: rgba(250, 250, 250, 0.88);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.9);
         }
 
         .site-header-inner {
@@ -112,7 +118,7 @@
         .site-logo-mark {
             display: inline-flex;
             flex: 0 0 auto;
-            filter: drop-shadow(0 10px 24px rgba(35, 83, 71, 0.18));
+            filter: drop-shadow(0 10px 24px rgba(17, 24, 39, 0.12));
         }
 
         .site-logo-mark svg {
@@ -150,9 +156,9 @@
 
         .nav-link:hover,
         .nav-link.active {
-            color: var(--surface-dark);
-            border-color: rgba(35, 83, 71, 0.12);
-            background: rgba(255, 255, 255, 0.55);
+            color: var(--secondary);
+            border-color: rgba(37, 99, 235, 0.16);
+            background: rgba(219, 234, 254, 0.45);
         }
 
         .button-link,
@@ -170,22 +176,22 @@
 
         .button-link {
             color: #fff;
-            background: linear-gradient(135deg, var(--primary), #2a6a5a);
-            box-shadow: 0 14px 30px rgba(35, 83, 71, 0.22);
+            background: linear-gradient(135deg, var(--primary), var(--primary-deep));
+            box-shadow: 0 14px 30px rgba(17, 24, 39, 0.18);
         }
 
         .button-secondary {
             color: var(--surface-dark);
             background: rgba(255, 255, 255, 0.5);
-            border: 1px solid rgba(35, 83, 71, 0.16);
+            border: 1px solid rgba(229, 231, 235, 1);
         }
 
         .button-submit {
             width: 100%;
             border-radius: 18px;
             color: #fff;
-            background: linear-gradient(135deg, var(--secondary), #cf815e);
-            box-shadow: 0 14px 28px rgba(191, 109, 77, 0.22);
+            background: linear-gradient(135deg, var(--primary), var(--primary-deep));
+            box-shadow: 0 14px 28px rgba(17, 24, 39, 0.18);
         }
 
         .button-link:hover,
@@ -207,7 +213,7 @@
         .list-card,
         .table-card {
             background: var(--surface);
-            border: 1px solid rgba(255, 255, 255, 0.65);
+            border: 1px solid var(--line);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow);
             backdrop-filter: blur(16px);
@@ -226,10 +232,10 @@
             margin: 0;
             padding: 14px 18px;
             border-radius: 18px;
-            background: rgba(255, 250, 244, 0.96);
+            background: rgba(255, 255, 255, 0.96);
             color: var(--surface-dark);
-            border: 1px solid rgba(47, 122, 86, 0.14);
-            box-shadow: 0 18px 36px rgba(35, 83, 71, 0.14);
+            border: 1px solid rgba(17, 24, 39, 0.08);
+            box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
             backdrop-filter: blur(14px);
             line-height: 1.45;
             transition: opacity 0.28s ease, transform 0.28s ease, max-height 0.28s ease, padding 0.28s ease, border-width 0.28s ease;
@@ -247,7 +253,7 @@
             border-radius: 12px;
             display: grid;
             place-items: center;
-            background: rgba(47, 122, 86, 0.12);
+            background: rgba(55, 65, 81, 0.12);
             color: var(--success);
             font-size: 0.72rem;
             font-weight: 800;
@@ -280,7 +286,7 @@
             padding: 8px 14px;
             border-radius: 999px;
             background: rgba(255, 255, 255, 0.72);
-            color: var(--secondary);
+            color: var(--surface-dark);
             font-size: 0.78rem;
             font-weight: 800;
             letter-spacing: 0.12em;
@@ -341,7 +347,7 @@
             width: 220px;
             height: 220px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(191, 109, 77, 0.18) 0%, transparent 68%);
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 68%);
         }
 
         .hero-copy h1 {
@@ -378,7 +384,7 @@
             padding: 16px 18px;
             border-radius: 18px;
             background: rgba(255, 255, 255, 0.64);
-            border: 1px solid rgba(35, 83, 71, 0.08);
+            border: 1px solid rgba(229, 231, 235, 1);
         }
 
         .stat-pill strong,
@@ -433,7 +439,7 @@
             width: 100%;
             padding: 14px 16px;
             border-radius: 16px;
-            border: 1px solid rgba(35, 83, 71, 0.16);
+            border: 1px solid var(--line);
             background: rgba(255, 255, 255, 0.82);
             color: var(--text);
             outline: none;
@@ -442,8 +448,8 @@
         .field input:focus,
         .field select:focus,
         .field textarea:focus {
-            border-color: rgba(191, 109, 77, 0.7);
-            box-shadow: 0 0 0 4px rgba(191, 109, 77, 0.12);
+            border-color: rgba(37, 99, 235, 0.4);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
         }
 
         .form-note,
@@ -483,55 +489,55 @@
 
         .room-image--garden-photo {
             background:
-                linear-gradient(180deg, rgba(24, 58, 55, 0.18), rgba(24, 58, 55, 0.55)),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.14), rgba(15, 23, 42, 0.46)),
                 url('https://i.pinimg.com/1200x/fa/2f/ff/fa2fffc8ab6ec7f91064a660ebe5d04c.jpg') center/cover no-repeat;
         }
 
         .room-image--loft-photo {
             background:
-                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.5)),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.14), rgba(15, 23, 42, 0.46)),
                 url('https://i.pinimg.com/736x/f1/77/c5/f177c5954b2cf9fbb981d8f744d85fc1.jpg') center/cover no-repeat;
         }
 
         .room-image--executive-photo {
             background:
-                linear-gradient(180deg, rgba(24, 58, 55, 0.2), rgba(24, 58, 55, 0.56)),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.16), rgba(15, 23, 42, 0.48)),
                 url('https://i.pinimg.com/1200x/d4/84/5e/d4845eedfc3cc7b847fb59060052ee2c.jpg') center/cover no-repeat;
         }
 
         .room-image--river {
             background:
-                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.14), rgba(15, 23, 42, 0.46)),
                 url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
         }
 
         .room-image--maple {
             background:
-                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.14), rgba(15, 23, 42, 0.46)),
                 url('https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
         }
 
         .room-image--skyline {
             background:
-                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.14), rgba(15, 23, 42, 0.46)),
                 url('https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
         }
 
         .room-image--oakwood {
             background:
-                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.14), rgba(15, 23, 42, 0.46)),
                 url('https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
         }
 
         .room-image--harbor {
             background:
-                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.14), rgba(15, 23, 42, 0.46)),
                 url('https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
         }
 
         .room-image--campus {
             background:
-                linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.14), rgba(15, 23, 42, 0.46)),
                 url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
         }
 
@@ -606,6 +612,17 @@
             text-align: right;
         }
 
+        .price-value.inline {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .price-value.inline strong,
+        .price-value.inline span {
+            display: inline;
+        }
+
         .price-tag span {
             color: var(--muted);
             font-size: 0.9rem;
@@ -663,8 +680,8 @@
         }
 
         .auth-copy {
-            background: linear-gradient(160deg, rgba(24, 58, 55, 0.95), rgba(38, 87, 79, 0.9));
-            color: #f7eee3;
+            background: linear-gradient(160deg, rgba(17, 24, 39, 0.98), rgba(55, 65, 81, 0.94));
+            color: #f8fafc;
         }
 
         .auth-copy h1,
@@ -676,7 +693,7 @@
 
         .auth-copy .eyebrow {
             background: rgba(255, 255, 255, 0.08);
-            color: #f7d7c9;
+            color: #dbeafe;
         }
 
         .auth-points {
@@ -915,7 +932,7 @@
                 @endif
 
                 @if ($errors->any())
-                    <div class="flash-banner" style="background: rgba(191, 109, 77, 0.12); color: #a34f2d; border-color: rgba(191, 109, 77, 0.18);">
+                    <div class="flash-banner" style="background: var(--danger-soft); color: var(--danger-deep); border-color: rgba(239, 68, 68, 0.18);">
                         {{ $errors->first() }}
                     </div>
                 @endif
@@ -945,5 +962,6 @@
             }, delay);
         });
     </script>
+    @stack('scripts')
 </body>
 </html>

@@ -34,7 +34,7 @@
                     <div
                         class="room-image room-image--{{ $room->theme }}"
                         @if ($room->image_url)
-                            style="background-image: linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)), url('{{ $room->image_url }}'); background-position: center; background-size: cover;"
+                            style="background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.14), rgba(15, 23, 42, 0.46)), url('{{ $room->image_url }}'); background-position: center; background-size: cover;"
                         @endif
                     >
                         <small>{{ $room->availability_label }}</small>
@@ -66,9 +66,9 @@
                         </div>
 
                         <div class="price-tag">
-                            <div class="price-value">
-                                <strong>{{ $room->price_display }}</strong>
-                                <span>{{ $room->period_display }}</span>
+                            <div class="price-value inline">
+                                <strong>{{ $room->daily_price_display }}</strong>
+                                <span>/day</span>
                             </div>
                             <a href="{{ route('rooms.show', $room->slug) }}" class="button-secondary">
                                 More

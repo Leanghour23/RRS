@@ -18,7 +18,7 @@
     <style>
         .page-dashboard .page-content { padding: 0; }
         .page-dashboard .page-frame { width: 100%; max-width: none; }
-        .admin-shell { min-height: 100vh; display: grid; grid-template-columns: 260px minmax(0, 1fr); background: linear-gradient(180deg, #f8f2ea 0%, #efe3d5 100%); }
+        .admin-shell { min-height: 100vh; display: grid; grid-template-columns: 260px minmax(0, 1fr); background: linear-gradient(180deg, var(--bg) 0%, var(--bg-accent) 100%); }
         .admin-sidebar { position: sticky; top: 0; align-self: start; min-height: 100vh; background: linear-gradient(180deg, var(--surface-dark) 0%, var(--primary) 100%); color: #fff; padding: 28px 22px; }
         .admin-brand, .admin-topbar, .admin-profile, .admin-panel-head, .customer-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
         .admin-brand { justify-content: flex-start; margin-bottom: 28px; font-size: 1.4rem; font-weight: 800; }
@@ -26,20 +26,20 @@
         .customer-avatar, .admin-avatar { border-radius: 50%; background: linear-gradient(135deg, var(--secondary), var(--primary)); }
         .admin-menu { display: grid; gap: 10px; }
         .admin-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 18px; color: rgba(255,255,255,0.92); }
-        .admin-link.active { background: rgba(255,250,244,0.98); color: var(--surface-dark); }
-        .admin-link.active .admin-icon { background: rgba(35,83,71,0.12); color: var(--surface-dark); }
+        .admin-link.active { background: rgba(255,255,255,0.98); color: var(--secondary); }
+        .admin-link.active .admin-icon { background: rgba(37,99,235,0.12); color: var(--secondary); }
         .admin-main { padding: 26px; }
-        .admin-topbar { position: sticky; top: 0; z-index: 30; margin: 0 -26px 22px; padding: 18px 26px 22px; background: linear-gradient(180deg, rgba(248,242,234,0.96) 0%, rgba(239,227,213,0.92) 100%); backdrop-filter: blur(12px); }
+        .admin-topbar { position: sticky; top: 0; z-index: 30; margin: 0 -26px 22px; padding: 18px 26px 22px; background: linear-gradient(180deg, rgba(250,250,250,0.96) 0%, rgba(243,244,246,0.92) 100%); backdrop-filter: blur(12px); }
         .admin-title { margin: 0; color: var(--surface-dark); font-size: 2rem; }
         .admin-subtle { margin: 0; color: var(--muted); }
         .admin-stats { position: sticky; top: 112px; z-index: 20; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; margin-bottom: 22px; padding-bottom: 6px; }
-        .admin-card, .admin-panel { border-radius: 24px; background: rgba(255,250,244,0.95); box-shadow: 0 22px 46px rgba(27,29,37,0.07); }
+        .admin-card, .admin-panel { border-radius: 24px; background: rgba(255,255,255,0.95); box-shadow: 0 22px 46px rgba(15,23,42,0.07); border: 1px solid var(--line); }
         .admin-card { padding: 24px; }
         .admin-card strong { display: block; color: var(--surface-dark); font-size: 2rem; margin-bottom: 8px; }
         .admin-panel { overflow: hidden; }
-        .admin-panel-head { padding: 20px 24px; border-bottom: 1px solid rgba(35,83,71,0.08); }
+        .admin-panel-head { padding: 20px 24px; border-bottom: 1px solid var(--line); }
         .admin-panel-body { padding: 12px 24px 24px; }
-        .customer-row { padding: 16px 0; border-top: 1px solid rgba(35,83,71,0.08); }
+        .customer-row { padding: 16px 0; border-top: 1px solid var(--line); }
         .customer-row:first-child { border-top: none; }
         .customer-main { display: flex; align-items: center; gap: 14px; }
         .customer-copy { display: grid; gap: 4px; }

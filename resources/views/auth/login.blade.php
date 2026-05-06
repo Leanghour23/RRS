@@ -32,7 +32,7 @@
             right: 12px;
             top: 50%;
             transform: translateY(-50%);
-            border: 1px solid rgba(35, 83, 71, 0.12);
+            border: 1px solid rgba(229, 231, 235, 1);
             background: rgba(255, 255, 255, 0.88);
             color: var(--surface-dark);
             border-radius: 999px;

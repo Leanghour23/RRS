@@ -95,6 +95,16 @@ class Room extends Model
         return null;
     }
 
+    public function getDailyRateAttribute(): float
+    {
+        return round((float) $this->price / 30, 2);
+    }
+
+    public function getDailyPriceDisplayAttribute(): string
+    {
+        return '$' . number_format($this->daily_rate, 2);
+    }
+
     public function getAmenitiesListAttribute(): Collection
     {
         return $this->amenities->pluck('name');

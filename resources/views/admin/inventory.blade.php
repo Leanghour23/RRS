@@ -18,7 +18,7 @@
     <style>
         .page-dashboard .page-content { padding: 0; }
         .page-dashboard .page-frame { width: 100%; max-width: none; }
-        .admin-shell { min-height: 100vh; display: grid; grid-template-columns: 260px minmax(0, 1fr); background: linear-gradient(180deg, #f8f2ea 0%, #efe3d5 100%); }
+        .admin-shell { min-height: 100vh; display: grid; grid-template-columns: 260px minmax(0, 1fr); background: linear-gradient(180deg, var(--bg) 0%, var(--bg-accent) 100%); }
         .admin-sidebar { position: sticky; top: 0; align-self: start; min-height: 100vh; background: linear-gradient(180deg, var(--surface-dark) 0%, var(--primary) 100%); color: #fff; padding: 28px 22px; }
         .admin-brand, .admin-topbar, .admin-profile, .admin-panel-head, .inventory-row, .alert-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
         .admin-brand { justify-content: flex-start; margin-bottom: 28px; font-size: 1.4rem; font-weight: 800; }
@@ -26,22 +26,22 @@
         .admin-avatar, .alert-icon { border-radius: 50%; background: linear-gradient(135deg, var(--secondary), var(--primary)); }
         .admin-menu { display: grid; gap: 10px; }
         .admin-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 18px; color: rgba(255,255,255,0.92); }
-        .admin-link.active { background: rgba(255,250,244,0.98); color: var(--surface-dark); }
-        .admin-link.active .admin-icon { background: rgba(35,83,71,0.12); color: var(--surface-dark); }
+        .admin-link.active { background: rgba(255,255,255,0.98); color: var(--secondary); }
+        .admin-link.active .admin-icon { background: rgba(37,99,235,0.12); color: var(--secondary); }
         .admin-main { padding: 26px; }
-        .admin-topbar { position: sticky; top: 0; z-index: 30; margin: 0 -26px 22px; padding: 18px 26px 22px; background: linear-gradient(180deg, rgba(248,242,234,0.96) 0%, rgba(239,227,213,0.92) 100%); backdrop-filter: blur(12px); }
+        .admin-topbar { position: sticky; top: 0; z-index: 30; margin: 0 -26px 22px; padding: 18px 26px 22px; background: linear-gradient(180deg, rgba(250,250,250,0.96) 0%, rgba(243,244,246,0.92) 100%); backdrop-filter: blur(12px); }
         .admin-title { margin: 0; color: var(--surface-dark); font-size: 2rem; }
         .admin-subtle { margin: 0; color: var(--muted); }
         .admin-stats, .admin-grid { display: grid; gap: 22px; }
         .admin-stats { position: sticky; top: 112px; z-index: 20; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 22px; padding-bottom: 6px; }
-        .admin-card, .admin-panel { border-radius: 24px; background: rgba(255,250,244,0.95); box-shadow: 0 22px 46px rgba(27,29,37,0.07); }
+        .admin-card, .admin-panel { border-radius: 24px; background: rgba(255,255,255,0.95); box-shadow: 0 22px 46px rgba(15,23,42,0.07); border: 1px solid var(--line); }
         .admin-card { padding: 24px; }
         .admin-card strong { display: block; color: var(--surface-dark); font-size: 2rem; margin-bottom: 8px; }
         .admin-grid { grid-template-columns: minmax(0, 1fr); }
         .admin-panel { overflow: hidden; }
-        .admin-panel-head { padding: 20px 24px; border-bottom: 1px solid rgba(35,83,71,0.08); }
+        .admin-panel-head { padding: 20px 24px; border-bottom: 1px solid var(--line); }
         .admin-panel-body { padding: 12px 24px 24px; }
-        .inventory-row, .alert-row { padding: 16px 0; border-top: 1px solid rgba(35,83,71,0.08); align-items: flex-start; }
+        .inventory-row, .alert-row { padding: 16px 0; border-top: 1px solid var(--line); align-items: flex-start; }
         .inventory-row:first-child, .alert-row:first-child { border-top: none; }
         .inventory-visual { width: 96px; min-width: 96px; height: 78px; border-radius: 18px; background-position: center; background-size: cover; background-repeat: no-repeat; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18); }
         .inventory-content, .inventory-main, .alert-copy { display: grid; gap: 6px; }
@@ -49,14 +49,14 @@
         .inventory-main strong, .alert-copy strong { color: var(--surface-dark); }
         .inventory-side { display: grid; gap: 10px; justify-items: end; }
         .inventory-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
-        .admin-mini-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 10px 18px; border-radius: 999px; font-size: 0.88rem; font-weight: 700; border: 1px solid rgba(35,83,71,0.12); background: rgba(255,255,255,0.82); color: var(--surface-dark); box-shadow: 0 10px 20px rgba(27,29,37,0.06); cursor: pointer; transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease, border-color 160ms ease; }
+        .admin-mini-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 10px 18px; border-radius: 999px; font-size: 0.88rem; font-weight: 700; border: 1px solid var(--line); background: rgba(255,255,255,0.9); color: var(--surface-dark); box-shadow: 0 10px 20px rgba(15,23,42,0.06); cursor: pointer; transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease, border-color 160ms ease; }
         .admin-mini-btn:hover,
         .admin-mini-btn:focus-visible,
-        .admin-mini-btn:active { background: rgba(255,250,244,0.98); color: var(--surface-dark); border-color: rgba(35,83,71,0.08); box-shadow: 0 14px 26px rgba(27,29,37,0.1); transform: translateY(-1px); }
-        .admin-mini-btn.delete { border-color: rgba(191,109,77,0.18); background: rgba(191,109,77,0.1); color: #9d4d32; }
+        .admin-mini-btn:active { background: rgba(255,255,255,0.98); color: var(--surface-dark); border-color: rgba(37,99,235,0.16); box-shadow: 0 14px 26px rgba(15,23,42,0.1); transform: translateY(-1px); }
+        .admin-mini-btn.delete { border-color: rgba(239,68,68,0.18); background: rgba(239,68,68,0.08); color: var(--danger-deep); }
         .admin-mini-btn.delete:hover,
         .admin-mini-btn.delete:focus-visible,
-        .admin-mini-btn.delete:active { background: rgba(252,236,230,0.98); border-color: rgba(191,109,77,0.14); color: #8f432a; box-shadow: 0 14px 26px rgba(157,77,50,0.12); }
+        .admin-mini-btn.delete:active { background: rgba(254,242,242,0.98); border-color: rgba(239,68,68,0.14); color: var(--danger-deep); box-shadow: 0 14px 26px rgba(239,68,68,0.12); }
         @media (max-width: 1100px) { .admin-shell { grid-template-columns: 1fr; } .admin-sidebar { position: static; min-height: auto; } .admin-stats, .admin-grid, .admin-menu { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 780px) { .admin-stats, .admin-grid, .admin-menu, .inventory-content { grid-template-columns: 1fr; } .admin-topbar, .admin-profile, .admin-panel-head, .inventory-row, .alert-row { flex-direction: column; align-items: flex-start; } .admin-topbar, .admin-stats { position: static; margin: 0 0 22px; padding: 0; backdrop-filter: none; } .inventory-side, .inventory-actions { justify-items: start; justify-content: flex-start; } .inventory-visual { width: 100%; height: 180px; } .admin-main { padding: 18px; } }
     </style>
@@ -121,7 +121,7 @@
                                     <div
                                         class="inventory-visual room-image--{{ $room->theme }}"
                                         @if ($room->image_url)
-                                            style="background-image: linear-gradient(180deg, rgba(24, 58, 55, 0.16), rgba(24, 58, 55, 0.52)), url('{{ $room->image_url }}');"
+                                            style="background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.14), rgba(15, 23, 42, 0.46)), url('{{ $room->image_url }}');"
                                         @endif
                                     ></div>
 

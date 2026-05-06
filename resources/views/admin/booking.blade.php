@@ -18,28 +18,28 @@
     <style>
         .page-dashboard .page-content { padding: 0; }
         .page-dashboard .page-frame { width: 100%; max-width: none; }
-        .admin-shell { min-height: 100vh; display: grid; grid-template-columns: 260px minmax(0, 1fr); background: linear-gradient(180deg, #f8f2ea 0%, #efe3d5 100%); }
+        .admin-shell { min-height: 100vh; display: grid; grid-template-columns: 260px minmax(0, 1fr); background: linear-gradient(180deg, var(--bg) 0%, var(--bg-accent) 100%); }
         .admin-sidebar { position: sticky; top: 0; align-self: start; min-height: 100vh; background: linear-gradient(180deg, var(--surface-dark) 0%, var(--primary) 100%); color: #fff; padding: 28px 22px; }
         .admin-brand, .admin-topbar, .admin-profile, .admin-panel-head, .booking-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
         .admin-brand { justify-content: flex-start; margin-bottom: 28px; font-size: 1.4rem; font-weight: 800; }
         .admin-brand-mark, .admin-avatar, .admin-icon { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; background: rgba(255,255,255,0.14); color: #fff; font-size: 0.78rem; font-weight: 800; }
         .admin-menu { display: grid; gap: 10px; }
         .admin-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 18px; color: rgba(255,255,255,0.92); }
-        .admin-link.active { background: rgba(255,250,244,0.98); color: var(--surface-dark); }
-        .admin-link.active .admin-icon { background: rgba(35,83,71,0.12); color: var(--surface-dark); }
+        .admin-link.active { background: rgba(255,255,255,0.98); color: var(--secondary); }
+        .admin-link.active .admin-icon { background: rgba(37,99,235,0.12); color: var(--secondary); }
         .admin-main { padding: 26px; }
-        .admin-topbar { position: sticky; top: 0; z-index: 30; margin: 0 -26px 22px; padding: 18px 26px 22px; background: linear-gradient(180deg, rgba(248,242,234,0.96) 0%, rgba(239,227,213,0.92) 100%); backdrop-filter: blur(12px); }
+        .admin-topbar { position: sticky; top: 0; z-index: 30; margin: 0 -26px 22px; padding: 18px 26px 22px; background: linear-gradient(180deg, rgba(250,250,250,0.96) 0%, rgba(243,244,246,0.92) 100%); backdrop-filter: blur(12px); }
         .admin-title { margin: 0; color: var(--surface-dark); font-size: 2rem; }
         .admin-subtle { margin: 0; color: var(--muted); }
         .admin-avatar { border-radius: 50%; background: linear-gradient(135deg, var(--secondary), var(--primary)); }
         .admin-stats { position: sticky; top: 112px; z-index: 20; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; margin-bottom: 22px; padding-bottom: 6px; }
-        .admin-card, .admin-panel { border-radius: 24px; background: rgba(255,250,244,0.95); box-shadow: 0 22px 46px rgba(27,29,37,0.07); }
+        .admin-card, .admin-panel { border-radius: 24px; background: rgba(255,255,255,0.95); box-shadow: 0 22px 46px rgba(15,23,42,0.07); border: 1px solid var(--line); }
         .admin-card { padding: 24px; }
         .admin-card strong { display: block; color: var(--surface-dark); font-size: 2rem; margin-bottom: 8px; }
         .admin-panel { overflow: hidden; }
-        .admin-panel-head { padding: 20px 24px; border-bottom: 1px solid rgba(35,83,71,0.08); }
+        .admin-panel-head { padding: 20px 24px; border-bottom: 1px solid var(--line); }
         .admin-panel-body { padding: 12px 24px 24px; }
-        .booking-row { padding: 16px 0; border-top: 1px solid rgba(35,83,71,0.08); align-items: flex-start; }
+        .booking-row { padding: 16px 0; border-top: 1px solid var(--line); align-items: flex-start; }
         .booking-row:first-child { border-top: none; }
         .booking-main { display: grid; gap: 6px; }
         .booking-side { display: grid; gap: 10px; justify-items: end; }
@@ -47,15 +47,15 @@
         .booking-main strong { color: var(--surface-dark); }
         .booking-meta { display: flex; flex-wrap: wrap; gap: 10px; color: var(--muted); font-size: 0.92rem; }
         .admin-badge { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--surface-dark); }
-        .admin-action-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 10px 16px; border: none; border-radius: 999px; background: linear-gradient(135deg, var(--primary), #2a6a5a); color: #fff; font-weight: 700; cursor: pointer; box-shadow: 0 12px 24px rgba(35, 83, 71, 0.18); transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease; }
-        .admin-action-btn:hover { transform: translateY(-1px); box-shadow: 0 16px 28px rgba(35, 83, 71, 0.22); }
-        .admin-action-btn.reject { background: linear-gradient(135deg, #bf6d4d, #a34f2d); box-shadow: 0 12px 24px rgba(163, 79, 45, 0.18); }
-        .admin-action-btn.reject:hover { box-shadow: 0 16px 28px rgba(163, 79, 45, 0.22); }
+        .admin-action-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 10px 16px; border: none; border-radius: 999px; background: linear-gradient(135deg, var(--primary), var(--primary-deep)); color: #fff; font-weight: 700; cursor: pointer; box-shadow: 0 12px 24px rgba(17, 24, 39, 0.18); transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease; }
+        .admin-action-btn:hover { transform: translateY(-1px); box-shadow: 0 16px 28px rgba(17, 24, 39, 0.22); }
+        .admin-action-btn.reject { background: linear-gradient(135deg, var(--danger), var(--danger-deep)); box-shadow: 0 12px 24px rgba(239, 68, 68, 0.18); }
+        .admin-action-btn.reject:hover { box-shadow: 0 16px 28px rgba(239, 68, 68, 0.22); }
         .admin-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-        .admin-dot.pending { background: #d49b2d; }
-        .admin-dot.confirmed { background: var(--primary); }
-        .admin-dot.rejected { background: #bf6d4d; }
-        .admin-dot.review { background: var(--secondary); }
+        .admin-dot.pending { background: var(--muted-soft); }
+        .admin-dot.confirmed { background: var(--surface-dark); }
+        .admin-dot.rejected { background: var(--danger); }
+        .admin-dot.review { background: var(--muted); }
         @media (max-width: 1100px) { .admin-shell { grid-template-columns: 1fr; } .admin-sidebar { position: static; min-height: auto; } .admin-stats, .admin-menu { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 780px) { .admin-stats, .admin-menu { grid-template-columns: 1fr; } .admin-topbar, .admin-profile, .admin-panel-head, .booking-row { flex-direction: column; align-items: flex-start; } .admin-topbar, .admin-stats { position: static; margin: 0 0 22px; padding: 0; backdrop-filter: none; } .booking-side, .booking-actions { justify-items: start; justify-content: flex-start; } .admin-main { padding: 18px; } }
     </style>

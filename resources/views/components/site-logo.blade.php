@@ -6,9 +6,9 @@
 
 @php
     $isLight = $variant === 'light';
-    $stroke = $isLight ? 'rgba(255,250,244,0.92)' : '#183a37';
-    $fill = $isLight ? 'rgba(255,250,244,0.18)' : '#fff7f0';
-    $accent = $isLight ? '#f7c4ad' : '#bf6d4d';
+    $stroke = $isLight ? 'rgba(248,250,252,0.94)' : '#0f172a';
+    $fill = $isLight ? 'rgba(255,255,255,0.18)' : '#ffffff';
+    $accent = $isLight ? '#93c5fd' : '#2563eb';
 @endphp
 
 <span {{ $attributes->class(['site-logo', $isLight ? 'site-logo-light' : 'site-logo-default']) }}>

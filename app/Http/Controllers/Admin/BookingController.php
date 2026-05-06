@@ -48,7 +48,7 @@ class BookingController extends Controller
                 return;
             }
 
-            if ($booking->user->is_admin || $booking->user->role === 'admin') {
+            if ($booking->user->isAdmin()) {
                 $booking->delete();
                 $message = 'Booking request ' . $booking->code . ' was deleted. Admin accounts are not deleted.';
 

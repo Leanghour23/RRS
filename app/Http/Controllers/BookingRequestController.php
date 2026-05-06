@@ -14,6 +14,14 @@ class BookingRequestController extends Controller
 {
     public function store(Request $request): RedirectResponse
     {
+        $user = Auth::user();
+
+        if ($user?->isAdmin()) {
+            return back()->withErrors([
+                'booking' => 'Admin accounts can view room details only and cannot submit booking requests.',
+            ]);
+        }
+
         $validated = $request->validate([
             'room_slug' => ['required', 'string', 'exists:rooms,slug'],
             'guest_name' => ['required', 'string', 'max:255'],
@@ -26,7 +34,6 @@ class BookingRequestController extends Controller
         ]);
 
         $room = Room::query()->where('slug', $validated['room_slug'])->firstOrFail();
-        $user = Auth::user();
         $durationValue = $validated['duration_value'] ?? null;
         $durationUnit = $validated['duration_unit'] ?? 'months';
 
@@ -75,12 +82,12 @@ class BookingRequestController extends Controller
             return null;
         }
 
-        $multiplier = match ($durationUnit) {
-            'days' => 1 / 30,
-            'weeks' => 7 / 30,
-            default => 1,
-        };
+        $dailyRate = $room->daily_rate;
 
-        return round((float) $room->price * $durationValue * $multiplier, 2);
+        return match ($durationUnit) {
+            'weeks' => round($dailyRate * 7 * $durationValue * 0.9, 2),
+            'months' => round((float) $room->price * $durationValue * 0.8, 2),
+            default => round($dailyRate * $durationValue, 2),
+        };
     }
 }

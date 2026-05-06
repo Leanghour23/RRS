@@ -101,8 +101,8 @@
         .room-detail-list li {
             padding: 12px 14px;
             border-radius: 16px;
-            background: rgba(255, 250, 244, 0.72);
-            border: 1px solid rgba(35, 83, 71, 0.08);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(229, 231, 235, 1);
             color: var(--surface-dark);
         }
 
@@ -113,6 +113,53 @@
             margin-top: auto;
             padding-top: 24px;
             justify-content: flex-end;
+        }
+
+        .booking-estimate {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .booking-estimate-copy {
+            display: grid;
+            gap: 1px;
+            min-width: 0;
+        }
+
+        .booking-estimate-label {
+            font-size: 0.76rem;
+            color: var(--muted-soft);
+        }
+
+        .booking-estimate-value {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--surface-dark);
+            white-space: nowrap;
+        }
+
+        .booking-estimate-note {
+            font-size: 0.74rem;
+            color: var(--muted-soft);
+            line-height: 1.3;
+            text-align: right;
+        }
+
+        @media (max-width: 640px) {
+            .booking-estimate {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .booking-estimate-note {
+                text-align: left;
+            }
         }
 
         @media (max-width: 900px) {
@@ -135,7 +182,7 @@
             <div
                 class="room-detail-cover room-image room-image--{{ $room->theme }}"
                 @if ($room->image_url)
-                    style="background-image: linear-gradient(180deg, rgba(24, 58, 55, 0.18), rgba(24, 58, 55, 0.55)), url('{{ $room->image_url }}'); background-position: center; background-size: cover;"
+                    style="background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.14), rgba(15, 23, 42, 0.46)), url('{{ $room->image_url }}'); background-position: center; background-size: cover;"
                 @endif
             >
                 <div>
@@ -147,7 +194,7 @@
                 <div class="room-detail-pills">
                     <span class="room-detail-pill">{{ $room->capacity_label }}</span>
                     <span class="room-detail-pill">{{ $room->size_label }}</span>
-                    <span class="room-detail-pill">{{ $room->price_display }} {{ $room->period_display }}</span>
+                    <span class="room-detail-pill">{{ $room->daily_price_display }} / day</span>
                 </div>
             </div>
         </article>
@@ -208,7 +255,7 @@
                     </div>
                     <div class="meta-line">
                         <span>Rent</span>
-                        <strong>{{ $room->price_display }} {{ $room->period_display }}</strong>
+                        <strong>{{ $room->daily_price_display }} / day</strong>
                     </div>
                 </div>
 
@@ -239,55 +286,141 @@
 
                 <section class="panel room-detail-card">
                     <h3>Booking Request</h3>
-                    <form action="{{ route('booking.request') }}" method="POST" class="form-grid">
-                        @csrf
-                        <input type="hidden" name="room_slug" value="{{ $room->slug }}">
+                    @if ($errors->has('booking'))
+                        <div class="alert-error">{{ $errors->first('booking') }}</div>
+                    @endif
 
-                        <div class="field">
-                            <label for="guest_name">Full name</label>
-                            <input id="guest_name" type="text" name="guest_name" value="{{ old('guest_name', auth()->user()->name ?? '') }}" required>
-                        </div>
+                    @if (auth()->user()?->isAdmin())
+                        <p>Admin accounts can view room details only. Booking requests are disabled for admins.</p>
+                    @else
+                        <form
+                            action="{{ route('booking.request') }}"
+                            method="POST"
+                            class="form-grid"
+                            data-booking-price
+                            data-room-price="{{ (float) $room->price }}"
+                            data-daily-rate="{{ $room->daily_rate }}"
+                        >
+                            @csrf
+                            <input type="hidden" name="room_slug" value="{{ $room->slug }}">
 
-                        <div class="field">
-                            <label for="guest_email">Email address</label>
-                            <input id="guest_email" type="email" name="guest_email" value="{{ old('guest_email', auth()->user()->email ?? '') }}" required>
-                        </div>
-
-                        <div class="field">
-                            <label for="guest_phone">Phone number</label>
-                            <input id="guest_phone" type="text" name="guest_phone" value="{{ old('guest_phone', optional(auth()->user()?->customerProfile)->phone) }}">
-                        </div>
-
-                        <div class="form-row-two">
                             <div class="field">
-                                <label for="move_in_date">Move-in date</label>
-                                <input id="move_in_date" type="date" name="move_in_date" value="{{ old('move_in_date') }}">
+                                <label for="guest_name">Full name</label>
+                                <input id="guest_name" type="text" name="guest_name" value="{{ old('guest_name', auth()->user()->name ?? '') }}" required>
                             </div>
 
                             <div class="field">
-                                <label for="duration_value">Duration</label>
-                                <input id="duration_value" type="number" min="1" name="duration_value" value="{{ old('duration_value') }}" placeholder="6">
+                                <label for="guest_email">Email address</label>
+                                <input id="guest_email" type="email" name="guest_email" value="{{ old('guest_email', auth()->user()->email ?? '') }}" required>
                             </div>
-                        </div>
 
-                        <div class="field">
-                            <label for="duration_unit">Duration unit</label>
-                            <select id="duration_unit" name="duration_unit">
-                                @foreach (['days' => 'Days', 'weeks' => 'Weeks', 'months' => 'Months'] as $value => $label)
-                                    <option value="{{ $value }}" @selected(old('duration_unit', 'months') === $value)>{{ $label }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                            <div class="field">
+                                <label for="guest_phone">Phone number</label>
+                                <input id="guest_phone" type="text" name="guest_phone" value="{{ old('guest_phone', optional(auth()->user()?->customerProfile)->phone) }}">
+                            </div>
 
-                        <div class="field">
-                            <label for="notes">Notes</label>
-                            <textarea id="notes" name="notes" rows="4" placeholder="Move-in preference, budget notes, or special requests">{{ old('notes') }}</textarea>
-                        </div>
+                            <div class="form-row-two">
+                                <div class="field">
+                                    <label for="move_in_date">Move-in date</label>
+                                    <input id="move_in_date" type="date" name="move_in_date" value="{{ old('move_in_date') }}">
+                                </div>
 
-                        <button type="submit" class="button-submit">Submit Request</button>
-                    </form>
+                                <div class="field">
+                                    <label for="duration_value">Duration</label>
+                                    <input id="duration_value" type="number" min="1" name="duration_value" value="{{ old('duration_value') }}" placeholder="6">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label for="duration_unit">Duration unit</label>
+                                <select id="duration_unit" name="duration_unit">
+                                    @foreach (['days' => 'Days', 'weeks' => 'Weeks', 'months' => 'Months'] as $value => $label)
+                                        <option value="{{ $value }}" @selected(old('duration_unit', 'days') === $value)>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="booking-estimate" aria-live="polite">
+                                <div class="booking-estimate-copy">
+                                    <span class="booking-estimate-label">Estimated price</span>
+                                    <strong class="booking-estimate-value" data-estimate-value>Select duration</strong>
+                                </div>
+                                <span class="booking-estimate-note" data-estimate-note>Daily rate {{ $room->daily_price_display }}, weekly bookings get 10% off, monthly bookings get 20% off.</span>
+                            </div>
+
+                            <div class="field">
+                                <label for="notes">Notes</label>
+                                <textarea id="notes" name="notes" rows="4" placeholder="Move-in preference, budget notes, or special requests">{{ old('notes') }}</textarea>
+                            </div>
+
+                            <button type="submit" class="button-submit">Submit Request</button>
+                        </form>
+                    @endif
                 </section>
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.querySelectorAll('[data-booking-price]').forEach((form) => {
+            const durationInput = form.querySelector('#duration_value');
+            const unitInput = form.querySelector('#duration_unit');
+            const estimateValue = form.querySelector('[data-estimate-value]');
+            const estimateNote = form.querySelector('[data-estimate-note]');
+            const roomPrice = Number(form.dataset.roomPrice || 0);
+            const dailyRate = Number(form.dataset.dailyRate || 0);
+            const formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 2,
+            });
+
+            const unitLabels = {
+                days: 'day',
+                weeks: 'week',
+                months: 'month',
+            };
+
+            const calculateTotal = (value, unit) => {
+                if (unit === 'weeks') {
+                    return dailyRate * 7 * value * 0.9;
+                }
+
+                if (unit === 'months') {
+                    return roomPrice * value * 0.8;
+                }
+
+                return dailyRate * value;
+            };
+
+            const updateEstimate = () => {
+                const durationValue = Number(durationInput?.value || 0);
+                const durationUnit = unitInput?.value || 'days';
+
+                if (!durationValue || durationValue < 1) {
+                    estimateValue.textContent = 'Select duration';
+                    estimateNote.textContent = 'Daily rate {{ $room->daily_price_display }}, weekly bookings get 10% off, monthly bookings get 20% off.';
+                    return;
+                }
+
+                const total = calculateTotal(durationValue, durationUnit);
+                const unitLabel = unitLabels[durationUnit] || 'month';
+                const plural = durationValue === 1 ? unitLabel : unitLabel + 's';
+                const discountText = durationUnit === 'weeks'
+                    ? ' including 10% weekly discount.'
+                    : durationUnit === 'months'
+                        ? ' including 20% monthly discount.'
+                        : '.';
+
+                estimateValue.textContent = formatter.format(total);
+                estimateNote.textContent = durationValue + ' ' + plural + discountText;
+            };
+
+            durationInput?.addEventListener('input', updateEstimate);
+            unitInput?.addEventListener('change', updateEstimate);
+            updateEstimate();
+        });
+    </script>
+@endpush
